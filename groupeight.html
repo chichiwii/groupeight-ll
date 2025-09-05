@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research on Viewer Needs for Vlogging</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #fffbea, #fffde7);
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Floating background shapes */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,187,51,0.15);
+            border-radius: 50%;
+            top: 50px;
+            left: 50px;
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,187,51,0.15);
+            border-radius: 50%;
+            bottom: 50px;
+            right: 50px;
+            z-index: -1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Navigation Tabs */
+        nav {
+            background: rgba(255, 187, 51, 0.95);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 12px 0;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 10px;
+            background: linear-gradient(to right, transparent 50%, #ffaa00 50%);
+            background-size: 200% 100%;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background-position: -100% 0;
+            color: white;
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-attachment: fixed;
+        }
+
+        header img.bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(70%) blur(1px);
+            animation: zoom 20s infinite alternate;
+        }
+
+        header h1 {
+            position: relative;
+            color: #fff;
+            font-size: 2.8rem;
+            text-align: center;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
+            animation: fadeInDown 1.5s ease forwards, float 4s ease-in-out infinite;
+        }
+
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-30px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+
+        @keyframes zoom {
+            0% { transform: scale(1);}
+            100% { transform: scale(1.1);}
+        }
+
+        /* Main Content */
+        main {
+            max-width: 900px;
+            margin: 100px auto 30px auto;
+            padding: 25px;
+        }
+
+        h2 {
+            color: #ffbb33;
+            border-bottom: 2px dashed #ffbb33;
+            padding-bottom: 6px;
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(255,187,51,0.7);
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+            position: relative;
+        }
+
+        li::before {
+            content: "⭐";
+            position: absolute;
+            left: -20px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+            background: rgba(255, 248, 176, 0.95);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .vlog-photo, img {
+            border-radius: 15px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, opacity 0.6s ease-out;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .vlog-photo.show, img.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #research .vlog-photo {
+            width: 70%; 
+            margin: 20px auto;
+            display: block;
+        }
+
+        .vlog-photo:hover, img:hover {
+            transform: scale(1.03);
+        }
+
+        .sticker {
+            width: 50px;
+            vertical-align: middle;
+            margin: 0 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            background: #ffbb33;
+            color: #333;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            font-weight: bold;
+        }
+
+        /* Scroll-to-top button */
+        #scrollTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 10px 15px;
+            border-radius: 50%;
+            border: none;
+            background: #ffaa00;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+
+        #scrollTop:hover {
+            background: #ffbb33;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Tabs -->
+    <nav>
+        <a href="#research">Research</a>
+        <a href="#viewer-behavior">Viewer Behavior</a>
+        <a href="#method">Method</a>
+        <a href="#needs">Viewer Needs</a>
+        <a href="#conclusion">Conclusion</a>
+        <a href="#wrap">Wrap Up</a>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <img class="bg" src="https://stevens-tate.com/wp-content/uploads/blog-vs-vlog-heading-845x321.jpg" alt="Vlogging Background">
+        <h1>Our Research Journey ✧˖°📸⋆｡ ˚</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="section" id="research">
+            <h2>Step 1: Research...</h2>
+            <p><b>We began by exploring what vlogs are and why they are so popular. ⋆˙⟡ </b></p>
+            <p>Our goal is to determine the needs of viewers regarding vlogging content, analyze trends of different vlog types, and compare their popularity. We also aim to see watch time, engagement, and video duration preferences.</p>
+            <p><b>Vlog</b> is short for <i>video log,</i> it is a format wherein an individual records themselves and their life. Viewers connect to vloggers because they are ordinary people creating content about their life.</p>
+            <img src="https://audiosocketblog.b-cdn.net/wp-content/uploads/2021/08/5eb8bb65-613c-bd5e-1b4d-a849670e063a.jpg" 
+                 class="vlog-photo">
+            <p>Vlogging is most commonly found in <b>pre-recorded videos,</b> however it can also be found in <b>live streaming.</b> The most popular type of vlog seen in live streaming are <b>travel vlogs,</b> wherein the streamer is at a certain area, perhaps a convention or just a sidewalk, experiencing life while sharing it live.</p>
+            <img src="https://i.pinimg.com/originals/a0/ea/4c/a0ea4ce1b166c0a6a7cac0d785e35868.gif" style="display: block; margin: 20px auto;">
+        </div>
+
+        <div class="section" id="viewer-behavior">
+            <h2>Step 2: Observing Viewer Behavior👥</h2>
+            <p>We explored <b>YouTube</b> to find out what types of vlogs people love to watch, noting viewer engagement like comments, likes, and shares. </p>
+            <img src="https://media.tenor.com/Zas8oRd75HkAAAAM/watching-youtube.gif" style="display: block; margin: 20px auto; width: 400px;">
+        </div>
+
+        <div class="section" id="method">
+            <h2>Method Used (Observation – Empathize Stage)</h2>
+            <p><strong>Platform:</strong> YouTube</p>
+            <p><strong><b>Top 10 Vlogging Content Types:</strong></b></p>
+            <ul>
+                <li>Daily Vlogs</li>
+                <li>Travel Vlogs</li>
+                <li>Informative Vlogs</li>
+                <li>Tech Vlogs</li>
+                <li>Motivational Vlogs</li>
+                <li>Educational Vlogs</li>
+                <li>Reviews</li>
+                <li>Gaming Vlogs</li>
+                <li>Cooking or Food Vlogs</li>
+                <li>Fitness and Beauty Content</li>
+            </ul>
+            <p><strong>Viewer Engagement:</strong></p>
+            <ul>
+                <li><b>Views:</b> Trending topics or popular personalities get hundreds of thousands to millions of views.🔥</li>
+                <li><b>Likes/Reactions:</b> Funny, relatable, or inspiring videos receive more likes and reactions.❤️👍</li>
+                <li><b>Comments:</b> Viewers express connection, ask questions, and share experiences.💬</li>
+                <li><b>Sharing:</b> Highly entertaining and trendy vlogs are shared more on social media.🔗</li>
+            </ul>
+            <img src="https://cdn.dribbble.com/userupload/25405119/file/original-ab3023e2b6b4146edcb84d2e376d5b0d.gif" style="display: block; margin: 20px auto; width: 400px;">
+        </div>
+
+        <div class="section" id="needs">
+            <h2>Step 3: Discovering Viewer Needs📺</h2>
+            <p>People watch vlogs for <b>entertainment, curiosity, relaxation, personal connection, and authentic content.</b> Viewer preferences vary by age:</p>
+            <b><p>Patterns Noticed:</p></b>
+            <ul>
+                <li><b>Younger viewers</b> prefer fun, trendy, and relatable for entertainment and social engagement</li>
+                <li><b>Older viewers</b> or adults often watch lifestyle, travel, or educational vlogs for learning and inspiration.</li>
+                <li><b>Authenticity and relatability</b> of the vlogger are key factors in keeping viewers <b>interested</b></li>
+                <li>Most vlogs are <b>8–15 minutes long,</b> and viewers tend to watch around <b>6–12 minutes</b> on average of a single vlog.</li>
+                <li><b>Shorter vlogs (3–7 min)</b> are popular for quick entertainment.</li>
+            </ul>
+        </div>
+
+        <div class="section" id="conclusion">
+            <h2>Our Conclusion🎯</h2>
+            <p><b>Vlogging</b> fulfills various viewer needs, such as entertainment, connection, inspiration, and learning. Relatability and authenticity make vloggers influential. Different types of vlogs attract different audiences, making vlogging a significant part of streaming content today.</p> 
+            <p>People watch vlogs not only for <b>entertainment</b> but also for <b>connection, inspiration, and learning.</b> The relatability and authenticity of vloggers make their audience feel personally engaged. <b>Different types of vlogs attract different audiences:</b> younger viewers are drawn to humorous, trendy, or lifestyle content, while older viewers often prefer travel, educational, or motivational vlogs.</p>
+        </div>
+
+        <div class="section" id="wrap">
+            <h2>That's a wrap✨</h2>
+            <p>Through this project, our group explored the world of vlogging and discovered how much it impacts viewers’ lives.📹</p>
+            <img src="https://media.tenor.com/oWSUU3x-wL0AAAAM/cat-cat-meme.gif" style="display: block; margin: 20px auto; width: 200px;">
+            <p>We hope this research not only gives us a deeper understanding of viewer needs but also helps us gain more knowledge for our next part on streaming, so we can create even better content in the future.</p>
+        </div>
+    </main>
+
+    <button id="scrollTop" title="Go to top">⬆️</button>
+
+    <footer>
+        &copy; Part 5 LL Website by Group 8 🌼
+    </footer>
+
+    <script>
+        // Scroll animation for sections and images
+        const sections = document.querySelectorAll('.section');
+        const images = document.querySelectorAll('img');
+
+        function animateOnScroll() {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if(sectionTop < window.innerHeight - 100) {
+                    section.classList.add('show');
+                }
+            });
+
+            images.forEach(img => {
+                const imgTop = img.getBoundingClientRect().top;
+                if(imgTop < window.innerHeight - 100) {
+                    img.classList.add('show');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.style.display = 'block';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+
+</body>
+</html>
